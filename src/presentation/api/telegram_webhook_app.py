@@ -9,11 +9,28 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Header, HTTPException, Request, status
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.infrastructure.telegram import TelegramBotModule, TelegramMessage
 from src.infrastructure.telegram.client import TelegramApiError
 
 app: FastAPI = FastAPI(title="TradingTool-2 API", version="0.1.0")
+
+load_dotenv()
+raw_cors_origins: str = os.getenv(
+    "CORS_ALLOWED_ORIGINS",
+    "https://kushb2.github.io,http://localhost:5173,http://127.0.0.1:5173",
+)
+cors_allowed_origins: list[str] = [
+    origin.strip() for origin in raw_cors_origins.split(",") if origin.strip()
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @dataclass(frozen=True)
