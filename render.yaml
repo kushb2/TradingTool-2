@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: tradingtool-2
+    runtime: python
+    region: oregon
+    plan: starter
+    branch: main
+    rootDir: .
+    autoDeploy: true
+    healthCheckPath: /health
+    buildCommand: |
+      pip install --upgrade pip
+      pip install poetry==2.3.2
+      poetry config virtualenvs.create false
+      poetry install --no-interaction --no-ansi --without dev --no-root
+    startCommand: |
+      uvicorn src.presentation.api.telegram_webhook_app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.12
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: TELEGRAM_WEBHOOK_SECRET
+        sync: false
+      - key: TELEGRAM_DOWNLOAD_DIR
+        value: /tmp/telegram_downloads
+      - key: TELEGRAM_POLL_TIMEOUT_SECONDS
+        value: "60"
+      - key: TELEGRAM_REQUEST_TIMEOUT_SECONDS
+        value: "75"
+      - key: TELEGRAM_ERROR_RETRY_SLEEP_SECONDS
+        value: "1"
+      - key: TELEGRAM_MAX_RETRY_SLEEP_SECONDS
+        value: "30"

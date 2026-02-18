@@ -2,6 +2,14 @@
 
 Use this when deploying Telegram updates via FastAPI webhook instead of long polling.
 
+## 0. Render Blueprint file
+
+This repo now includes:
+
+- `render.yaml`
+
+Render can auto-create/update service config from this file on GitHub push.
+
 ## 1. Required env vars
 
 Set in Render service environment:
@@ -14,6 +22,8 @@ TELEGRAM_DOWNLOAD_DIR=data/telegram_downloads
 RENDER_EXTERNAL_URL=https://tradingtool-2.onrender.com
 ```
 
+If using `render.yaml`, Render will prompt for secret values where `sync: false`.
+
 ## 2. Start FastAPI app
 
 Render Start Command:
@@ -21,6 +31,8 @@ Render Start Command:
 ```bash
 poetry run uvicorn src.presentation.api.telegram_webhook_app:app --host 0.0.0.0 --port $PORT
 ```
+
+If using `render.yaml`, this is already configured.
 
 ## 3. Register webhook with Telegram
 
@@ -45,4 +57,3 @@ poetry run python -m src.presentation.cli.telegram_webhook_cli delete
 ## 6. Important operational rule
 
 Do not run webhook and long polling at the same time for the same bot token.
-

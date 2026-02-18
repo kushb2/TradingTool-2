@@ -87,6 +87,9 @@ Testing guide:
 - `docs/telegram-webhook-setup.md`
 - `docs/service-run.md`
 
+Render deployment blueprint:
+- `render.yaml`
+
 ### Send a text message
 
 ```bash
