@@ -27,6 +27,8 @@ Set real values in `.env` for:
 
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_WEBHOOK_SECRET`
+- `SUPABASE_URL`
+- `SUPABASE_KEY`
 
 ## Start frontend + backend together (recommended)
 
@@ -65,6 +67,12 @@ Expected:
 {"status":"ok"}
 ```
 
+Verify Supabase connectivity:
+
+```bash
+curl http://localhost:8000/health/supabase
+```
+
 ## Webhook commands
 
 Set webhook to Render URL:
@@ -96,4 +104,3 @@ Ctrl + C
 ## Important note
 
 Use webhook mode only for now. Do not run Telegram polling listener at the same time.
-

@@ -89,6 +89,7 @@ Testing guide:
 - `docs/telegram-bot-testing.md`
 - `docs/telegram-webhook-setup.md`
 - `docs/service-run.md`
+- `docs/supabase-setup.md`
 
 Render deployment blueprint:
 - `render.yaml`
@@ -146,6 +147,27 @@ poetry run python -m src.presentation.cli.telegram_webhook_cli delete
 
 Do not run polling and webhook together for the same bot token.
 
+## Supabase Integration
+
+Configure `.env`:
+
+```bash
+export SUPABASE_URL="https://agadprjhajxqabseiqhr.supabase.co"
+export SUPABASE_KEY="<supabase_secret_or_service_role_key>"
+```
+
+CLI health check:
+
+```bash
+poetry run python -m src.presentation.cli.supabase_cli health
+```
+
+API health check:
+
+```bash
+curl https://tradingtool-2.onrender.com/health/supabase
+```
+
 ## Developer Checks
 
 ```bash
@@ -161,3 +183,5 @@ poetry run mypy src
 - `src/presentation/cli/telegram_cli.py`: CLI for send/listen.
 - `src/presentation/api/telegram_webhook_app.py`: FastAPI webhook receiver.
 - `src/presentation/cli/telegram_webhook_cli.py`: Webhook set/info/delete CLI.
+- `src/infrastructure/supabase/client.py`: Supabase client provider + health check.
+- `src/presentation/cli/supabase_cli.py`: Supabase health CLI.

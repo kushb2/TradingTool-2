@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Header, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.infrastructure.supabase import SupabaseClientError, SupabaseClientProvider
 from src.infrastructure.telegram import TelegramBotModule, TelegramMessage
 from src.infrastructure.telegram.client import TelegramApiError
 
@@ -75,6 +76,27 @@ def root() -> dict[str, str]:
 def health() -> dict[str, str]:
     """Health endpoint used by deployment checks."""
     return {"status": "ok"}
+
+
+@lru_cache(maxsize=1)
+def get_supabase_provider() -> SupabaseClientProvider:
+    """Create shared Supabase provider once per process."""
+    return SupabaseClientProvider.from_env()
+
+
+@app.get("/health/supabase")
+def supabase_health() -> dict[str, object]:
+    """Health endpoint for Supabase connectivity."""
+    try:
+        provider: SupabaseClientProvider = get_supabase_provider()
+        health_status = provider.check_connection()
+    except SupabaseClientError as error:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(error),
+        ) from error
+
+    return health_status.model_dump()
 
 
 @app.post("/telegram/webhook")

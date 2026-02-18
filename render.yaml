@@ -38,3 +38,7 @@ services:
         value: "1"
       - key: TELEGRAM_MAX_RETRY_SLEEP_SECONDS
         value: "30"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
