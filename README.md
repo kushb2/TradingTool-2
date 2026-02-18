@@ -19,7 +19,7 @@ poetry install
 
 ```bash
 cp .env.example .env
-export TELEGRAM_BOT_TOKEN="your_bot_token_here"
+export TELEGRAM_BOT_TOKEN="<bot_id>:<secret_from_botfather>"
 ```
 
 ## Telegram Module (Plug-and-Play)

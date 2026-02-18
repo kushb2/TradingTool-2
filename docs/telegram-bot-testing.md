@@ -13,9 +13,9 @@ poetry install
 Set your bot token (replace with your real token):
 
 ```bash
-export TELEGRAM_BOT_TOKEN="your_bot_token_here"
+export TELEGRAM_BOT_TOKEN="<bot_id>:<secret_from_botfather>"
 ```
-
+chat_id=974882412
 ## 2. Start listener (Terminal 1)
 
 ```bash

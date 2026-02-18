@@ -7,6 +7,8 @@ import time
 from collections.abc import Callable
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from .client import TelegramApiClient
 from .config import TelegramConfig
 from .models import TelegramMessage
@@ -38,14 +40,21 @@ class TelegramBotModule:
         token_env_var: str = "TELEGRAM_BOT_TOKEN",
         poll_timeout_seconds: int = 30,
     ) -> TelegramBotModule:
+        load_dotenv()
         token: str | None = os.getenv(token_env_var)
         if token is None or token.strip() == "":
             raise ValueError(
                 "Missing Telegram bot token. "
-                f"Set environment variable '{token_env_var}'."
+                f"Set environment variable '{token_env_var}' or add it to .env."
+            )
+        cleaned_token: str = token.strip()
+        if ":" not in cleaned_token:
+            raise ValueError(
+                "Invalid Telegram bot token format. "
+                "Expected '<bot_id>:<secret>' from BotFather."
             )
         return cls.from_token(
-            token=token.strip(), poll_timeout_seconds=poll_timeout_seconds
+            token=cleaned_token, poll_timeout_seconds=poll_timeout_seconds
         )
 
     def send_text(self, chat_id: int, text: str) -> int:
