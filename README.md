@@ -1,5 +1,37 @@
 # TradingTool-2
 
+## Frontend (React + Ant Design)
+
+This UI uses only Ant Design components (no custom CSS files).
+
+### 1. Install frontend dependencies
+
+```bash
+npm install
+```
+
+### 2. Run local frontend
+
+```bash
+npm run dev
+```
+
+### 3. Build production frontend
+
+```bash
+npm run build
+```
+
+### 4. Deploy to GitHub Pages
+
+```bash
+npm run deploy
+```
+
+One-time GitHub Pages setting:
+- Source branch: `gh-pages`
+- Folder: `/ (root)`
+
 ## Project Setup (Poetry)
 
 ### 1. Install Poetry
