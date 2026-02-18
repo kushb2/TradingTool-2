@@ -39,6 +39,6 @@ services:
       - key: TELEGRAM_MAX_RETRY_SLEEP_SECONDS
         value: "30"
       - key: SUPABASE_URL
-        value: https://agadprjhajxqabseiqhr.supabase.co
+        value: false
       - key: SUPABASE_KEY
-        value: sb_secret_O_0QLKidslfRsYrAYg0nlQ_vCXRnxZz
+        value: false
