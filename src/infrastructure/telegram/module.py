@@ -9,7 +9,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from .client import TelegramApiClient, TelegramApiError
+from .client import TelegramApiClient, TelegramApiError, parse_update_message
 from .config import TelegramConfig
 from .models import TelegramMessage
 
@@ -177,6 +177,31 @@ class TelegramBotModule:
     def download_file(self, file_id: str, destination: Path) -> Path:
         """Download photo/document from Telegram by file id."""
         return self._client.download_file(file_id=file_id, destination=destination)
+
+    def parse_update_message(self, raw_update: object) -> TelegramMessage | None:
+        """Parse a raw Telegram update payload into a message if present."""
+        return parse_update_message(raw_update)
+
+    def set_webhook(
+        self,
+        webhook_url: str,
+        secret_token: str | None = None,
+        drop_pending_updates: bool = False,
+    ) -> bool:
+        """Register webhook URL with Telegram Bot API."""
+        return self._client.set_webhook(
+            webhook_url=webhook_url,
+            secret_token=secret_token,
+            drop_pending_updates=drop_pending_updates,
+        )
+
+    def delete_webhook(self, drop_pending_updates: bool = False) -> bool:
+        """Remove webhook registration from Telegram Bot API."""
+        return self._client.delete_webhook(drop_pending_updates=drop_pending_updates)
+
+    def get_webhook_info(self) -> dict[str, object]:
+        """Get Telegram webhook configuration and delivery stats."""
+        return self._client.get_webhook_info()
 
 
 def _get_env_int(

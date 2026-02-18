@@ -44,16 +44,35 @@ class TelegramApiClient:
 
         parsed_messages: list[TelegramMessage] = []
         for raw_update in raw_updates:
-            update_map: dict[str, object] = _require_dict(raw_update, "update")
-            maybe_message: object | None = update_map.get("message")
-            if maybe_message is None:
+            parsed_message: TelegramMessage | None = parse_update_message(raw_update)
+            if parsed_message is None:
                 continue
-
-            message_map: dict[str, object] = _require_dict(maybe_message, "message")
-            parsed_messages.append(
-                _parse_message(update_map=update_map, message_map=message_map)
-            )
+            parsed_messages.append(parsed_message)
         return parsed_messages
+
+    def set_webhook(
+        self,
+        webhook_url: str,
+        secret_token: str | None = None,
+        drop_pending_updates: bool = False,
+    ) -> bool:
+        payload: dict[str, object] = {
+            "url": webhook_url,
+            "drop_pending_updates": drop_pending_updates,
+        }
+        if secret_token is not None and secret_token.strip() != "":
+            payload["secret_token"] = secret_token.strip()
+        response: dict[str, object] = self._post_json("setWebhook", payload)
+        return _require_bool(response.get("result"), "result")
+
+    def delete_webhook(self, drop_pending_updates: bool = False) -> bool:
+        payload: dict[str, object] = {"drop_pending_updates": drop_pending_updates}
+        response: dict[str, object] = self._post_json("deleteWebhook", payload)
+        return _require_bool(response.get("result"), "result")
+
+    def get_webhook_info(self) -> dict[str, object]:
+        response: dict[str, object] = self._post_json("getWebhookInfo", {})
+        return _require_dict(response.get("result"), "result")
 
     def get_file_path(self, file_id: str) -> str:
         payload: dict[str, object] = {"file_id": file_id}
@@ -137,6 +156,15 @@ def _parse_message(
         document=document,
         date_unix=_require_int(message_map.get("date"), "date"),
     )
+
+
+def parse_update_message(raw_update: object) -> TelegramMessage | None:
+    update_map: dict[str, object] = _require_dict(raw_update, "update")
+    maybe_message: object | None = update_map.get("message")
+    if maybe_message is None:
+        return None
+    message_map: dict[str, object] = _require_dict(maybe_message, "message")
+    return _parse_message(update_map=update_map, message_map=message_map)
 
 
 def _parse_photo(raw_photo: object) -> TelegramPhoto:

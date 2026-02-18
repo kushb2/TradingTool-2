@@ -1,1 +1,117 @@
-<h1>Hello Trading Tool</h1>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TradingTool-2 | Command Center</title>
+    <meta
+      name="description"
+      content="Command center UI for TradingTool-2 with quick access to backend, bot workflows, and deployment status."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="orb orb-left" aria-hidden="true"></div>
+    <div class="orb orb-right" aria-hidden="true"></div>
+
+    <main class="page">
+      <header class="hero reveal">
+        <p class="eyebrow">TradingTool-2</p>
+        <h1>Personal Trading Command Center</h1>
+        <p class="subhead">
+          Phone-first operations with Telegram bot alerts, document intake, and
+          always-on backend monitoring.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://kushb2.github.io/TradingTool-2/" target="_blank" rel="noreferrer">Open UI</a>
+          <a class="btn btn-secondary" href="https://tradingtool-2.onrender.com" target="_blank" rel="noreferrer">Open Backend</a>
+        </div>
+      </header>
+
+      <section class="status-grid reveal">
+        <article class="card endpoint-card">
+          <h2>Frontend</h2>
+          <a href="https://kushb2.github.io/TradingTool-2/" target="_blank" rel="noreferrer" class="endpoint-link">kushb2.github.io/TradingTool-2</a>
+          <p class="meta">GitHub Pages</p>
+          <span class="status-pill status-up">Live</span>
+        </article>
+
+        <article class="card endpoint-card">
+          <h2>Backend</h2>
+          <a href="https://tradingtool-2.onrender.com" target="_blank" rel="noreferrer" class="endpoint-link">tradingtool-2.onrender.com</a>
+          <p class="meta">Render Service</p>
+          <span id="backend-status" class="status-pill status-checking">Checking...</span>
+        </article>
+
+        <article class="card endpoint-card">
+          <h2>Telegram Flow</h2>
+          <p class="meta">Text, photos, Excel/docs intake</p>
+          <a href="./docs/telegram-bot-testing.md" class="endpoint-link">Open test guide</a>
+          <span class="status-pill status-up">Configured</span>
+        </article>
+      </section>
+
+      <section class="panel reveal">
+        <div class="panel-header">
+          <h2>Runbook</h2>
+          <p>One-copy commands for daily operations</p>
+        </div>
+
+        <div class="command-list">
+          <div class="command-item">
+            <p>Start listener</p>
+            <code id="cmd-listen">poetry run python -m src.presentation.cli.telegram_cli listen --download-dir data/telegram_downloads</code>
+            <button class="copy-btn" data-copy-target="cmd-listen">Copy</button>
+          </div>
+
+          <div class="command-item">
+            <p>Send test message</p>
+            <code id="cmd-send">poetry run python -m src.presentation.cli.telegram_cli send --text "Ping from TradingTool-2"</code>
+            <button class="copy-btn" data-copy-target="cmd-send">Copy</button>
+          </div>
+
+          <div class="command-item">
+            <p>Type + lint check</p>
+            <code id="cmd-check">poetry run ruff check src && poetry run mypy src</code>
+            <button class="copy-btn" data-copy-target="cmd-check">Copy</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="feature-grid reveal">
+        <article class="card feature-card">
+          <h3>Phone-First Workflow</h3>
+          <p>Run core trading operations from Telegram while backend stays online.</p>
+        </article>
+
+        <article class="card feature-card">
+          <h3>Document Intake</h3>
+          <p>Accept screenshots, images, Excel files, and documents from mobile.</p>
+        </article>
+
+        <article class="card feature-card">
+          <h3>Strict Architecture</h3>
+          <p>Presentation, application, domain, infrastructure boundaries preserved.</p>
+        </article>
+
+        <article class="card feature-card">
+          <h3>Typed Python Stack</h3>
+          <p>Poetry-managed environment with mypy + ruff quality gates.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer reveal">
+      <p>TradingTool-2 • Build fast, keep it readable, operate from your phone.</p>
+    </footer>
+
+    <script src="./assets/script.js"></script>
+  </body>
+</html>

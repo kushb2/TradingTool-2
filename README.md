@@ -29,6 +29,7 @@ export TELEGRAM_REQUEST_TIMEOUT_SECONDS="75"
 
 Testing guide:
 - `docs/telegram-bot-testing.md`
+- `docs/telegram-webhook-setup.md`
 
 ### Send a text message
 
@@ -55,6 +56,34 @@ Long-polling reliability defaults:
 
 Downloaded files are saved under `data/telegram_downloads/`.
 
+### Webhook mode (Render + FastAPI)
+
+Start API locally:
+
+```bash
+poetry run uvicorn src.presentation.api.telegram_webhook_app:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Register webhook (use your public Render URL):
+
+```bash
+poetry run python -m src.presentation.cli.telegram_webhook_cli set --public-base-url https://tradingtool-2.onrender.com --webhook-path /telegram/webhook
+```
+
+Check webhook info:
+
+```bash
+poetry run python -m src.presentation.cli.telegram_webhook_cli info
+```
+
+Delete webhook:
+
+```bash
+poetry run python -m src.presentation.cli.telegram_webhook_cli delete
+```
+
+Do not run polling and webhook together for the same bot token.
+
 ## Developer Checks
 
 ```bash
@@ -68,3 +97,5 @@ poetry run mypy src
 - `src/infrastructure/telegram/module.py`: High-level module facade.
 - `src/infrastructure/telegram/models.py`: Typed message models.
 - `src/presentation/cli/telegram_cli.py`: CLI for send/listen.
+- `src/presentation/api/telegram_webhook_app.py`: FastAPI webhook receiver.
+- `src/presentation/cli/telegram_webhook_cli.py`: Webhook set/info/delete CLI.

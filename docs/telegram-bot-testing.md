@@ -1,6 +1,8 @@
 # Telegram Bot Test Guide (Beginner Friendly)
 
 This guide helps you confirm your Telegram bot is working end-to-end.
+This document is for polling mode testing.
+For Render webhook mode, use `docs/telegram-webhook-setup.md`.
 
 ## 1. Prerequisites
 
@@ -17,7 +19,7 @@ export TELEGRAM_BOT_TOKEN="<bot_id>:<secret_from_botfather>"
 export TELEGRAM_CHAT_ID="974882412"
 export TELEGRAM_POLL_TIMEOUT_SECONDS="60"
 export TELEGRAM_REQUEST_TIMEOUT_SECONDS="75"
-export TELEGRAM_ERROR_RYeah.ETRY_SLEEP_SECONDS="1"
+export TELEGRAM_ERROR_RETRY_SLEEP_SECONDS="1"
 export TELEGRAM_MAX_RETRY_SLEEP_SECONDS="30"
 ```
 ## 2. Start listener (Terminal 1)
