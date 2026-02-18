@@ -85,6 +85,7 @@ export TELEGRAM_REQUEST_TIMEOUT_SECONDS="75"
 Testing guide:
 - `docs/telegram-bot-testing.md`
 - `docs/telegram-webhook-setup.md`
+- `docs/service-run.md`
 
 ### Send a text message
 
