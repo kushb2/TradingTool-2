@@ -10,19 +10,42 @@ This UI uses only Ant Design components (no custom CSS files).
 npm install
 ```
 
-### 2. Run local frontend
+### 2. Run local stack (recommended)
 
 ```bash
 npm run dev
 ```
 
-### 3. Build production frontend
+This starts:
+- frontend (Vite dev server)
+- backend API (FastAPI)
+
+### 3. Run modes
+
+```bash
+npm run dev:webhook   # Frontend + FastAPI (webhook mode)
+npm run dev:polling   # Frontend + FastAPI + Telegram polling listener
+npm run dev:frontend  # Frontend only
+npm run dev:api       # FastAPI only
+npm run dev:telegram  # Telegram polling listener only
+```
+
+Do not use polling and webhook together for the same bot token in production.
+
+### 4. Build production frontend
+
+`npm run dev` is development mode:
+- hot reload
+- local server
+- no production bundle output
+
+`npm run build` creates production files in `dist/` for deployment.
 
 ```bash
 npm run build
 ```
 
-### 4. Deploy to GitHub Pages
+### 5. Deploy to GitHub Pages
 
 ```bash
 npm run deploy

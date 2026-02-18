@@ -4,7 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run dev:webhook",
+    "dev:frontend": "vite",
+    "dev:api": "./scripts/run-poetry.sh run uvicorn src.presentation.api.telegram_webhook_app:app --host 0.0.0.0 --port 8000 --reload",
+    "dev:telegram": "./scripts/run-poetry.sh run python -m src.presentation.cli.telegram_cli listen --download-dir data/telegram_downloads",
+    "dev:webhook": "concurrently -k -n FE,API -c green,cyan \"npm:dev:frontend\" \"npm:dev:api\"",
+    "dev:polling": "concurrently -k -n FE,API,BOT -c green,cyan,magenta \"npm:dev:frontend\" \"npm:dev:api\" \"npm:dev:telegram\"",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"
@@ -16,6 +21,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.4.0",
+    "concurrently": "^9.2.1",
     "gh-pages": "^6.3.0",
     "vite": "^5.4.8"
   }
