@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "trading-bot"
+version = "0.1.0"
+description = "Personal modular trading bot with strict architecture"
+authors = ["kushbhardwaj71@gmail.com"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+# --- Infrastructure (Render & Supabase) ---
+fastapi = "^0.109.0"
+uvicorn = { extras = ["standard"], version = "^0.27.0" }
+supabase = "^2.3.0"
+python-dotenv = "^1.0.0"
+
+# --- Trading Core (Groww & Analysis) ---
+growwapi = "^1.0.0"
+pandas = ">=2.3.2,<3.0.0"
+numpy = "^2.2.6"
+vectorbt = "^0.28.4"
+pandas-ta = "^0.4.71b0"
+
+# --- Utilities & Type Safety ---
+pydantic = "^2.6.0"
+pydantic-settings = "^2.1.0"
+python-telegram-bot = "^20.7"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.8.0"
+pandas-stubs = "^2.1.0"
+ruff = "^0.2.0"
+types-requests = "^2.31.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# --- Configuration for Strict Typing (Kotlin-Style) ---
+[tool.mypy]
+python_version = "3.12"
+files = ["src"]
+strict = true
+ignore_missing_imports = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+warn_return_any = true
+explicit_package_bases = true
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
