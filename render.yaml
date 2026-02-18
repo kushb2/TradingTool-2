@@ -3,7 +3,7 @@ services:
     name: tradingtool-2
     runtime: python
     region: oregon
-    plan: starter
+    plan: free
     branch: main
     rootDir: .
     autoDeploy: true
