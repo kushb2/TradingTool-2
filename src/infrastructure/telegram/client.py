@@ -71,7 +71,7 @@ class TelegramApiClient:
                 file_url, timeout=self._config.request_timeout_seconds
             ) as response:
                 content: bytes = response.read()
-        except (HTTPError, URLError) as error:
+        except (HTTPError, URLError, TimeoutError) as error:
             raise TelegramApiError(
                 f"Failed to download file from Telegram: {error}"
             ) from error
@@ -94,7 +94,7 @@ class TelegramApiClient:
                 request, timeout=self._config.request_timeout_seconds
             ) as response:
                 body: bytes = response.read()
-        except (HTTPError, URLError) as error:
+        except (HTTPError, URLError, TimeoutError) as error:
             raise TelegramApiError(
                 f"HTTP request to Telegram failed: {error}"
             ) from error

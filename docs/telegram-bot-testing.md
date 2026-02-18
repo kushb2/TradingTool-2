@@ -14,8 +14,12 @@ Set your bot token (replace with your real token):
 
 ```bash
 export TELEGRAM_BOT_TOKEN="<bot_id>:<secret_from_botfather>"
+export TELEGRAM_CHAT_ID="974882412"
+export TELEGRAM_POLL_TIMEOUT_SECONDS="60"
+export TELEGRAM_REQUEST_TIMEOUT_SECONDS="75"
+export TELEGRAM_ERROR_RETRY_SLEEP_SECONDS="1"
+export TELEGRAM_MAX_RETRY_SLEEP_SECONDS="30"
 ```
-chat_id=974882412
 ## 2. Start listener (Terminal 1)
 
 ```bash
@@ -45,16 +49,16 @@ Save this `chat_id` value. You need it for sending messages from code.
 
 ## 4. Send message from code (Terminal 2)
 
-Open a second terminal and run:
+Open a second terminal and run (chat id auto-loaded from `TELEGRAM_CHAT_ID`):
 
 ```bash
-poetry run python -m src.presentation.cli.telegram_cli send --chat-id <your_chat_id> --text "Bot send test"
+poetry run python -m src.presentation.cli.telegram_cli send --text "Bot send test"
 ```
 
 Expected:
 
 ```text
-Sent message_id=... to chat_id=<your_chat_id>
+Sent message_id=... to chat_id=974882412
 ```
 
 You should receive `Bot send test` on your phone.
@@ -96,6 +100,14 @@ Bot is working if all are true:
 
 `Missing Telegram bot token`:
 - You did not export `TELEGRAM_BOT_TOKEN`.
+
+`Missing chat id`:
+- Set `TELEGRAM_CHAT_ID` in `.env`, or pass `--chat-id`.
+
+`TimeoutError` while listening:
+- This is usually transient network delay in long-polling.
+- Listener now retries automatically and continues.
+- Keep `TELEGRAM_REQUEST_TIMEOUT_SECONDS` greater than `TELEGRAM_POLL_TIMEOUT_SECONDS`.
 
 `Unauthorized` or `401`:
 - Token is wrong or expired. Regenerate token in BotFather.

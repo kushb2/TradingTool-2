@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -17,7 +18,9 @@ def _build_parser() -> argparse.ArgumentParser:
 
     send_parser = subparsers.add_parser("send", help="Send a text message")
     send_parser.add_argument(
-        "--chat-id", type=int, required=True, help="Target Telegram chat id"
+        "--chat-id",
+        type=int,
+        help="Target Telegram chat id (optional if TELEGRAM_CHAT_ID is set)",
     )
     send_parser.add_argument("--text", type=str, required=True, help="Text to send")
 
@@ -46,14 +49,32 @@ def _safe_file_name(file_name: str) -> str:
     return Path(file_name).name
 
 
+def _resolve_chat_id(chat_id: int | None) -> int:
+    if chat_id is not None:
+        return chat_id
+
+    env_chat_id: str | None = os.getenv("TELEGRAM_CHAT_ID")
+    if env_chat_id is None or env_chat_id.strip() == "":
+        raise ValueError(
+            "Missing chat id. Use '--chat-id' or set TELEGRAM_CHAT_ID in .env."
+        )
+    try:
+        return int(env_chat_id.strip())
+    except ValueError as error:
+        raise ValueError(
+            "Invalid TELEGRAM_CHAT_ID. Expected integer chat id."
+        ) from error
+
+
 def main() -> None:
     parser: argparse.ArgumentParser = _build_parser()
     args: argparse.Namespace = parser.parse_args()
     bot: TelegramBotModule = TelegramBotModule.from_env()
 
     if args.command == "send":
-        message_id: int = bot.send_text(chat_id=args.chat_id, text=args.text)
-        print(f"Sent message_id={message_id} to chat_id={args.chat_id}")
+        chat_id: int = _resolve_chat_id(args.chat_id)
+        message_id: int = bot.send_text(chat_id=chat_id, text=args.text)
+        print(f"Sent message_id={message_id} to chat_id={chat_id}")
         return
 
     download_dir: Path = args.download_dir

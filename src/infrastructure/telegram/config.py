@@ -8,4 +8,4 @@ class TelegramConfig:
     """Configuration required to call Telegram Bot API."""
 
     token: str
-    request_timeout_seconds: float = 30.0
+    request_timeout_seconds: float = 75.0
