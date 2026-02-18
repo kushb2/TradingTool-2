@@ -47,13 +47,16 @@ npm run build
 
 ### 5. Deploy to GitHub Pages
 
+Recommended: deploy from GitHub Actions automatically on every push to `main`.
+
+One-time GitHub Pages setting:
+- Source: `GitHub Actions`
+
+Optional manual deploy (legacy `gh-pages` branch flow):
+
 ```bash
 npm run deploy
 ```
-
-One-time GitHub Pages setting:
-- Source branch: `gh-pages`
-- Folder: `/ (root)`
 
 ## Project Setup (Poetry)
 
